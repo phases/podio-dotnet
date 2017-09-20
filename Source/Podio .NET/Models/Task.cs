@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PodioAPI.Models
 {
     public class Task
     {
         [JsonProperty("task_id")]
-        public string TaskId { get; set; }
+        public int TaskId { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
 
         [JsonProperty("group")]
-        public object Group { get; set; }
+        public JToken Group { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

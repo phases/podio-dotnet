@@ -226,8 +226,8 @@ namespace PodioAPI.Services
         /// </param>
         /// <returns></returns>
         public List<Task> CreateTask(string text, DateTime? dueDate = null, string description = null,
-            int? responsible = null, bool isPrivate = true, string refType = null, int? refId = null, bool hook = true,
-            bool silent = false)
+           int? responsible = null, bool isPrivate = true, string refType = null, int? refId = null, bool hook = true,
+           bool silent = false, string externalId = null)
         {
             var task = new TaskCreateUpdateRequest
             {
@@ -235,7 +235,8 @@ namespace PodioAPI.Services
                 Description = description,
                 DueDate = dueDate,
                 Responsible = responsible,
-                Private = isPrivate
+                Private = isPrivate,
+                ExternalId = externalId
             };
             return CreateTask(task, refType, refId, hook, silent);
         }
