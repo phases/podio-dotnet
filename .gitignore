@@ -32,4 +32,5 @@ obj
 *.jpg
 *.jpeg
 *.png
+.vs/
 !NuGet.exe

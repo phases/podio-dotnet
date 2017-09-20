@@ -317,5 +317,15 @@ namespace PodioAPI.Services
             };
             return _podio.Get<FileResponse>(url: null, options: options);
         }
+
+        public FileAttachment UploadLinkedAccountFile(int linkedAccountId, string externalFileId, bool preservePermissions = true)
+        {
+            var url = $"/file/linked_account/{linkedAccountId}/";
+            var request = new
+            {
+                external_file_id = externalFileId
+            };
+            return _podio.Post<FileAttachment>(url, request);
+        }
     }
 }
