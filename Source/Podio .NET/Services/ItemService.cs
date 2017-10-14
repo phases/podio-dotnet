@@ -253,7 +253,7 @@ namespace PodioAPI.Services
         /// <param name="filterOptions"></param>
         /// <param name="includeFiles"></param>
         /// <returns>Collection of matching items</returns>
-        public PodioCollection<Item> FilterItems(int appId, FilterOptions filterOptions, bool includeFiles = false)
+        public PodioCollection<Item> FilterItems(int appId, FilterOptions filterOptions, bool includeFiles = false, string itemsView = null)
         {
             filterOptions.Limit = filterOptions.Limit == 0 ? 30 : filterOptions.Limit;
             string url = string.Format("/item/app/{0}/filter/", appId);
@@ -276,9 +276,10 @@ namespace PodioAPI.Services
         /// <param name="sortBy">The sort order to use</param>
         /// <param name="sortDesc">True to sort descending, false otherwise</param>
         /// <param name="includeFiles">True to include files when getting filtered items, defaults to false</param>
+        /// <param name="itemsView"></param>
         /// <returns></returns>
         public PodioCollection<Item> FilterItems(int appId, int? limit = 30, int? offset = 0, Object filters = null,
-            bool? remember = null, string sortBy = null, bool? sortDesc = null, bool includeFiles = false)
+            bool? remember = null, string sortBy = null, bool? sortDesc = null, bool includeFiles = false, string itemsView = null)
         {
             var filterOptions = new FilterOptions
             {
@@ -289,7 +290,7 @@ namespace PodioAPI.Services
                 SortBy = sortBy,
                 SortDesc = sortDesc
             };
-            return FilterItems(appId, filterOptions, includeFiles);
+            return FilterItems(appId, filterOptions, includeFiles, itemsView);
         }
 
         /// <summary>
@@ -448,7 +449,7 @@ namespace PodioAPI.Services
         /// <param name="includeFiles">True to include files when getting filtered items, defaults to false</param>
         /// <returns></returns>
         public PodioCollection<Item> FilterItemsByView(int appId, int viewId, int limit = 30, int offset = 0,
-            bool remember = false, bool includeFiles = false)
+            bool remember = false, bool includeFiles = false, string itemsView = null)
         {
             string url = string.Format("/item/app/{0}/filter/{1}/", appId, viewId);
             if (includeFiles)
