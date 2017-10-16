@@ -252,14 +252,16 @@ namespace PodioAPI.Services
         /// <param name="appId"></param>
         /// <param name="filterOptions"></param>
         /// <param name="includeFiles"></param>
+        /// <param name="itemsView"></param>
         /// <returns>Collection of matching items</returns>
         public PodioCollection<Item> FilterItems(int appId, FilterOptions filterOptions, bool includeFiles = false, string itemsView = null)
         {
             filterOptions.Limit = filterOptions.Limit == 0 ? 30 : filterOptions.Limit;
             string url = string.Format("/item/app/{0}/filter/", appId);
-            if (includeFiles)
+            var query = GenerateItemFieldsBundlingQuery(includeFiles, itemsView);
+            if (!string.IsNullOrEmpty(query))
             {
-                url = url + "?fields=items.fields(files)";
+                url = $"{url}?{query}";
             }
             return _podio.Post<PodioCollection<Item>>(url, filterOptions);
         }
@@ -278,7 +280,7 @@ namespace PodioAPI.Services
         /// <param name="includeFiles">True to include files when getting filtered items, defaults to false</param>
         /// <param name="itemsView"></param>
         /// <returns></returns>
-        public PodioCollection<Item> FilterItems(int appId, int? limit = 30, int? offset = 0, Object filters = null,
+        public PodioCollection<Item> FilterItems(int appId, int? limit = 30, int? offset = 0, object filters = null,
             bool? remember = null, string sortBy = null, bool? sortDesc = null, bool includeFiles = false, string itemsView = null)
         {
             var filterOptions = new FilterOptions
@@ -292,7 +294,28 @@ namespace PodioAPI.Services
             };
             return FilterItems(appId, filterOptions, includeFiles, itemsView);
         }
-
+        private string GenerateItemFieldsBundlingQuery(bool includeFiles, string itemsView)
+        {
+            var queries = GenerateFilterQueryStrings(includeFiles, itemsView);
+            if (queries.Any())
+            {
+                return $"fields=items.{string.Join(".", queries)}";
+            }
+            return string.Empty;
+        }
+        private List<string> GenerateFilterQueryStrings(bool includeFiles, string itemsView)
+        {
+            var queries = new List<string>();
+            if (!string.IsNullOrEmpty(itemsView))
+            {
+                queries.Add($"view({itemsView})");
+            }
+            if (includeFiles)
+            {
+                queries.Add("fields(files)");
+            }
+            return queries;
+        } 
         /// <summary>
         ///     Returns the items in the Xlsx format.
         ///     <para>Podio API Reference: https://developers.podio.com/doc/items/get-items-as-xlsx-63233 </para>
@@ -447,14 +470,16 @@ namespace PodioAPI.Services
         /// <param name="offset">The offset into the returned items, defaults to 0</param>
         /// <param name="remember">True if the view should be remembered, defaults to false</param>
         /// <param name="includeFiles">True to include files when getting filtered items, defaults to false</param>
+        /// <param name="itemsView"></param>
         /// <returns></returns>
         public PodioCollection<Item> FilterItemsByView(int appId, int viewId, int limit = 30, int offset = 0,
             bool remember = false, bool includeFiles = false, string itemsView = null)
         {
             string url = string.Format("/item/app/{0}/filter/{1}/", appId, viewId);
-            if (includeFiles)
+            var query = GenerateItemFieldsBundlingQuery(includeFiles, itemsView);
+            if (!string.IsNullOrEmpty(query))
             {
-                url = url + "?fields=items.fields(files)";
+                url = $"{url}?{query}";
             }
             var filterOptions = new FilterOptions
             {
