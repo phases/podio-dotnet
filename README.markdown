@@ -151,7 +151,7 @@ embedField.AddEmbed(embed.EmbedId);
 //Uploading a file and attaching it to new item
 var filePath = Server.MapPath("\\files\\report.pdf");
 var uploadedFile = await podio.FileService.UploadFile(filePath, "report.pdf");
-myNewItem.FileIds = new List<int> { uploadedFile.FileId }; //Attach the uploaded file's id to item
+myNewItem.FileIds = new List<long> { uploadedFile.FileId }; //Attach the uploaded file's id to item
 
 var itemId = await podio.ItemService.AddNewItem(5678, myNewItem);
 ```
