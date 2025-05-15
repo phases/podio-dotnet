@@ -8,12 +8,6 @@ Installation
 
 The client library requires .NET Framework 4.0 or higher and [Json.NET](http://www.nuget.org/packages/Newtonsoft.Json/) as its dependency.
 
-This package is available on NuGet Gallery. To install the [Podio package](http://www.nuget.org/packages/podio) run the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console)
-
-    PM> Install-Package Podio
-
-This will install the client library and the required dependency.
-
 Constructing API client instance
 -------------
 
