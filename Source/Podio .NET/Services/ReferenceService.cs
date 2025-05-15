@@ -2,7 +2,6 @@
 using PodioAPI.Models;
 using PodioAPI.Models.Request;
 using PodioAPI.Utils;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -25,10 +24,10 @@ namespace PodioAPI.Services
         /// <param name="refType"></param>
         /// <param name="refId"></param>
         /// <returns></returns>
-        public async Task<int> CountUserWithAccess(string refType, int refId)
+        public int CountUserWithAccess(string refType, int refId)
         {
             string url = string.Format("/reference/{0}/{1}/accessible_by/count", refType, refId);
-            dynamic response =  await _podio.Get<dynamic>(url);
+            dynamic response = _podio.Get<dynamic>(url);
             return (int) response["count"];
         }
 
@@ -45,15 +44,15 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of profiles to return for each access type</param>
         /// <param name="offset">The offset into the profiles to return</param>
         /// <returns></returns>
-        public async Task<List<Contact>> FindUserWithAccess(string refType, int refId, int? limit = null, int? offset = null)
+        public List<Contact> FindUserWithAccess(string refType, int refId, int? limit = null, int? offset = null)
         {
             string url = string.Format("/reference/{0}/{1}/accessible_by/", refType, refId);
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"limit", limit.ToStringOrNull()},
                 {"offset", offset.ToStringOrNull()}
             };
-            return  await _podio.Get<List<Contact>>(url, requestData);
+            return _podio.Get<List<Contact>>(url, requestData);
         }
 
         /// <summary>
@@ -69,17 +68,17 @@ namespace PodioAPI.Services
         /// <param name="contextId">The id of the context to check the reference against.</param>
         /// <param name="contextType">The context type to check the reference against. Currently only supports "app".</param>
         /// <returns></returns>
-        public async Task<Reference> GetReference(string refType, int refId, bool accessorCount = false, int? contextId = null,
+        public Reference GetReference(string refType, int refId, bool accessorCount = false, int? contextId = null,
             string contextType = null)
         {
             string url = string.Format("/reference/{0}/{1}", refType, refId);
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"accessor_count", accessorCount.ToStringOrNull()},
                 {"context_id", contextId.ToStringOrNull()},
                 {"context_type", contextType}
             };
-            return  await _podio.Get<Reference>(url, requestData);
+            return _podio.Get<Reference>(url, requestData);
         }
 
         /// <summary>
@@ -92,14 +91,14 @@ namespace PodioAPI.Services
         ///     Space, Status permalink, Task permalink, User profile
         /// </param>
         /// <returns></returns>
-        public async Task<Reference> ResolveURL(string referenceUrl)
+        public Reference ResolveURL(string referenceUrl)
         {
             string url = "/reference/resolve";
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"url", referenceUrl}
             };
-            return  await _podio.Get<Reference>(url, requestData);
+            return _podio.Get<Reference>(url, requestData);
         }
 
         /// <summary>
@@ -108,10 +107,10 @@ namespace PodioAPI.Services
         /// </summary>
         /// <param name="searchReferenceRequest"></param>
         /// <returns></returns>
-        public async Task<List<ReferenceGroup>> SearchReferences(SearchReferencesRequest searchReferenceRequest)
+        public List<ReferenceGroup> SearchReferences(SearchReferencesRequest searchReferenceRequest)
         {
             string url = "/reference/search";
-            return  await _podio.Post<List<ReferenceGroup>>(url, searchReferenceRequest);
+            return _podio.Post<List<ReferenceGroup>>(url, searchReferenceRequest);
         }
     }
 }

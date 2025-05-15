@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using PodioAPI.Utils.ApplicationFields;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
 
 namespace PodioAPI.Models
 {
@@ -43,12 +41,6 @@ namespace PodioAPI.Models
         [JsonProperty("config")]
         public ApplicationConfiguration Config { get; set; }
 
-        [JsonProperty("layouts")]
-        public JToken Layouts { get; set; }
-
-        [JsonProperty("current_revision")]
-        public int? CurrentRevision { get; private set; }
-
         [JsonProperty("subscribed")]
         public bool Subscribed { get; private set; }
 
@@ -65,7 +57,7 @@ namespace PodioAPI.Models
         public string UrlAdd { get; private set; }
 
         [JsonProperty("token")]
-        public string Token { get; private set; }
+        public string Token { get; set; }
 
         [JsonProperty("url_label")]
         public string UrlLabel { get; private set; }
@@ -89,9 +81,6 @@ namespace PodioAPI.Models
 
         [JsonProperty("item_name")]
         public string ItemName { get; set; }
-
-        [JsonProperty("space")]
-        public Space Space { get; set; }
 
 
         /// <summary>

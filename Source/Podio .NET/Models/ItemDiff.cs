@@ -9,9 +9,6 @@ namespace PodioAPI.Models
         [JsonProperty("field_id")]
         public int? FieldId { get; set; }
 
-        [JsonProperty("external_id")]
-        public string ExternalId { get; set; }
-
         [JsonProperty("type")]
         public string Type { get; set; }
 

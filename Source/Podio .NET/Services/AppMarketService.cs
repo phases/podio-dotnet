@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using PodioAPI.Models;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -22,14 +21,14 @@ namespace PodioAPI.Services
         ///     false, all categories are returned.Default value: true
         /// </param>
         /// <returns></returns>
-        public async Task<AppMarketCategory> GetCategories(bool only_used = true)
+        public AppMarketCategory GetCategories(bool only_used = true)
         {
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"only_used", only_used.ToString()}
             };
             string url = "/app_store/category/";
-            return await _podio.Get<AppMarketCategory>(url, requestData);
+            return _podio.Get<AppMarketCategory>(url, requestData);
         }
 
         /// <summary>
@@ -37,10 +36,10 @@ namespace PodioAPI.Services
         ///     <para>Podio API Reference: https://developers.podio.com/doc/app-market/get-orgs-with-private-shares-211715 </para>
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Organization>> GetOrgsWithPrivateShares()
+        public List<Organization> GetOrgsWithPrivateShares()
         {
             string url = "/app_store/org/";
-            return await _podio.Get<List<Organization>>(url);
+            return _podio.Get<List<Organization>>(url);
         }
 
         /// <summary>
@@ -51,16 +50,16 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of results to return Default value: 6</param>
         /// <param name="offset">The offset into the returned results Default value: 0</param>
         /// <returns></returns>
-        public async Task<AppMarketShares> GetOwnShares(string type, int limit = 6, int offset = 0)
+        public AppMarketShares GetOwnShares(string type, int limit = 6, int offset = 0)
         {
             string url = string.Format("/app_store/{0}/own/", type);
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"limit", limit.ToString()},
                 {"offset", offset.ToString()},
                 {"type", type}
             };
-            return await _podio.Get<AppMarketShares>(url, requestData);
+            return _podio.Get<AppMarketShares>(url, requestData);
         }
 
         /// <summary>
@@ -70,10 +69,10 @@ namespace PodioAPI.Services
         /// <param name="type"></param>
         /// <param name="area"></param>
         /// <returns></returns>
-        public async Task<AppMarketShares> GetRecommendedShares(string type, string area)
+        public AppMarketShares GetRecommendedShares(string type, string area)
         {
             string url = string.Format("/app_store/{0}/recommended/{1}/", type, area);
-            return await _podio.Get<AppMarketShares>(url);
+            return _podio.Get<AppMarketShares>(url);
         }
 
         /// <summary>
@@ -83,10 +82,10 @@ namespace PodioAPI.Services
         /// </summary>
         /// <param name="shareId"></param>
         /// <returns></returns>
-        public async Task<AppMarketShare> GetShare(int shareId)
+        public AppMarketShare GetShare(int shareId)
         {
             string url = string.Format("/app_store/{0}/v2", shareId);
-            return await _podio.Get<AppMarketShare>(url);
+            return _podio.Get<AppMarketShare>(url);
         }
 
         /// <summary>
@@ -97,10 +96,10 @@ namespace PodioAPI.Services
         /// <param name="refType"></param>
         /// <param name="refId"></param>
         /// <returns></returns>
-        public async Task<List<AppMarketShare>> GetShareByReference(string refType, long refId)
+        public List<AppMarketShare> GetShareByReference(string refType, long refId)
         {
             string url = string.Format("/app_store/{0}/{1}/", refType, refId);
-            return await _podio.Get<List<AppMarketShare>>(url);
+            return _podio.Get<List<AppMarketShare>>(url);
         }
 
         /// <summary>
@@ -116,18 +115,18 @@ namespace PodioAPI.Services
         ///     "name".Default value: install
         /// </param>
         /// <returns></returns>
-        public async Task<AppMarketShares> GetSharesByAuthor(string type, int userId, int limit = 6, int offset = 0,
+        public AppMarketShares GetSharesByAuthor(string type, int userId, int limit = 6, int offset = 0,
             string sort = "install")
         {
             string url = string.Format("/app_store/{0}/author/{1}/", type, userId);
-            var requestData = new Dictionary<string, string>()
+            var requestData = new Dictionary<string, string>
             {
                 {"limit", limit.ToString()},
                 {"offset", offset.ToString()},
                 {"sort", sort},
                 {"type", type}
             };
-            return await _podio.Get<AppMarketShares>(url, requestData);
+            return _podio.Get<AppMarketShares>(url, requestData);
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace PodioAPI.Services
         ///     "name".Default value: install
         /// </param>
         /// <returns></returns>
-        public async Task<AppMarketShares> GetSharesByCategory(string type, int categoryId, int limit = 6, int offset = 0,
+        public AppMarketShares GetSharesByCategory(string type, int categoryId, int limit = 6, int offset = 0,
             string sort = "install")
         {
             string url = string.Format("/app_store/{0}/category/{1}/", type, categoryId);
@@ -154,7 +153,7 @@ namespace PodioAPI.Services
                 {"sort", sort},
                 {"type", type}
             };
-            return await _podio.Get<AppMarketShares>(url, requestData);
+            return _podio.Get<AppMarketShares>(url, requestData);
         }
 
         /// <summary>
@@ -165,7 +164,7 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of results to return Default value: 6</param>
         /// <param name="offset">The offset into the returned results Default value :0</param>
         /// <returns></returns>
-        public async Task<AppMarketShares> GetTopShares(string type, int limit = 6, int offset = 0)
+        public AppMarketShares GetTopShares(string type, int limit = 6, int offset = 0)
         {
             string url = string.Format("/app_store/{0}/top/", type);
             var requestData = new Dictionary<string, string>
@@ -174,7 +173,7 @@ namespace PodioAPI.Services
                 {"offset", offset.ToString()},
                 {"type", type}
             };
-            return await _podio.Get<AppMarketShares>(url, requestData);
+            return _podio.Get<AppMarketShares>(url, requestData);
         }
 
         /// <summary>
@@ -188,7 +187,7 @@ namespace PodioAPI.Services
         ///     specified, all dependencies will be installed
         /// </param>
         /// <returns></returns>
-        public async Task<AppMarketShareInstall> InstallShare(int shareId, int spaceId, List<int> dependentShareIds)
+        public AppMarketShareInstall InstallShare(int shareId, int spaceId, List<int> dependentShareIds)
         {
             string url = string.Format("/app_store/{0}/install", shareId);
             dynamic requestData = new
@@ -196,7 +195,7 @@ namespace PodioAPI.Services
                 space_id = spaceId,
                 dependencies = dependentShareIds
             };
-            return await _podio.Post<AppMarketShareInstall>(url, requestData);
+            return _podio.Post<AppMarketShareInstall>(url, requestData);
         }
 
         /// <summary>
@@ -216,7 +215,7 @@ namespace PodioAPI.Services
         /// <param name="childrenId">The ids of the child shares that this share should include</param>
         /// <param name="scope">The scope the app should be shared with, either "public" or "private", defaults to "public"</param>
         /// <returns>The id of the newly created share</returns>
-        public async Task<int> ShareApp(string refType, int refId, string name, string abstracts, string description,
+        public int ShareApp(string refType, int refId, string name, string abstracts, string description,
             string language, int[] categoryId, long[] fileId, int videoId, List<string> features, int childrenId,
             string scope = "public")
         {
@@ -236,7 +235,7 @@ namespace PodioAPI.Services
                 children = childrenId,
                 scope = scope
             };
-            dynamic response = await _podio.Post<dynamic>(url, requestData);
+            dynamic response = _podio.Post<dynamic>(url, requestData);
             return (int) response["share_id"];
         }
 
@@ -245,10 +244,10 @@ namespace PodioAPI.Services
         /// </summary>
         /// <para>Podio API Reference: https://developers.podio.com/doc/app-market/unshare-app-37917  </para>
         /// <param name="shareId"></param>
-        public async Task<dynamic> UnshareApp(int shareId)
+        public void UnshareApp(int shareId)
         {
             string url = string.Format("/app_store/{0}", shareId);
-            return await _podio.Delete<dynamic>(url);
+            _podio.Delete<dynamic>(url);
         }
 
         /// <summary>
@@ -263,7 +262,7 @@ namespace PodioAPI.Services
         /// <param name="categoryId">The ids of the categories the share should be placed in</param>
         /// <param name="fileId">The file ids to use as screenshots for the share</param>
         /// <param name="videoId">The youtube id of a introduction video, if any</param>
-        public async Task<dynamic> UpdateShare(int shareId, string name, string abstracts, string description, string language,
+        public void UpdateShare(int shareId, string name, string abstracts, string description, string language,
             int[] categoryId, long[] fileId, int? videoId = null)
         {
             string url = string.Format("/app_store/{0}", shareId);
@@ -277,7 +276,7 @@ namespace PodioAPI.Services
                 file_ids = fileId,
                 video = videoId
             };
-             return await _podio.Put<dynamic>(url, requestData);
+            _podio.Put<dynamic>(url, requestData);
         }
     }
 }

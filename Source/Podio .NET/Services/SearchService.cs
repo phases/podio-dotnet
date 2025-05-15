@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using PodioAPI.Models;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -26,7 +25,7 @@ namespace PodioAPI.Services
         ///     "file" and  "profile"
         /// </param>
         /// <returns></returns>
-        public async Task<List<SearchResult>> SearchGlobally(string query, int? limit = null, int offset = 0, string refType = null)
+        public List<SearchResult> SearchGlobally(string query, int? limit = null, int offset = 0, string refType = null)
         {
             string url = "/search/";
             dynamic requestData = new
@@ -36,7 +35,7 @@ namespace PodioAPI.Services
                 offset = offset,
                 ref_type = refType
             };
-            return  await _podio.Post<List<SearchResult>>(url, requestData);
+            return _podio.Post<List<SearchResult>>(url, requestData);
         }
 
         /// <summary>
@@ -52,7 +51,7 @@ namespace PodioAPI.Services
         ///     "file" and  "profile"
         /// </param>
         /// <returns></returns>
-        public async Task<List<SearchResult>> SearchInApp(int appId, string query, int? limit = null, int offset = 0,
+        public List<SearchResult> SearchInApp(int appId, string query, int? limit = null, int offset = 0,
             string refType = null)
         {
             string url = string.Format("/search/app/{0}/", appId);
@@ -63,7 +62,41 @@ namespace PodioAPI.Services
                 offset = offset,
                 ref_type = refType
             };
-            return  await _podio.Post<List<SearchResult>>(url, requestData);
+            return _podio.Post<List<SearchResult>>(url, requestData);
+        }
+
+        /// <summary>
+        ///     Searches in all items and tasks in the app.
+        ///     <para>Podio API Reference: https://developers.podio.com/doc/search/search-in-application-v2-155196220 </para>
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="query"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="refType">
+        ///     The type of objects to search for. Can be one of "item", "task", "conversation", "app", "status",
+        ///     "file" and  "profile"
+        /// </param>
+        /// <param name="counts"></param>
+        /// <param name="highlights"></param>
+        /// <param name="searchFields">Comma seperated</param>
+        /// <returns></returns>
+        public SearchResultV2 SearchInAppV2(int appId, string query, int? limit = null, int offset = 0,
+            string refType = null, bool counts = false, bool highlights = false, string searchFields = null)
+        {
+            string url = string.Format("/search/app/{0}/v2/", appId);
+            var requestData = new Dictionary<string, string>()
+            {
+                {"query", query},
+                {"limit", limit.HasValue ? limit.ToString() : "20" },
+                {"offset", offset.ToString()},
+                {"ref_type", refType},
+                {"counts", counts.ToString() },
+                {"highlights", highlights.ToString() },
+                {"search_fields", searchFields }
+            };
+         
+            return  _podio.Get<SearchResultV2>(url, requestData);
         }
 
         /// <summary>
@@ -79,7 +112,7 @@ namespace PodioAPI.Services
         ///     "file" and  "profile"
         /// </param>
         /// <returns></returns>
-        public async Task<List<SearchResult>> SearchInOrganization(int orgId, string query, int? limit = null, int offset = 0,
+        public List<SearchResult> SearchInOrganization(int orgId, string query, int? limit = null, int offset = 0,
             string refType = null)
         {
             string url = string.Format("/search/org/{0}/", orgId);
@@ -90,7 +123,7 @@ namespace PodioAPI.Services
                 offset = offset,
                 ref_type = refType
             };
-            return  await _podio.Post<List<SearchResult>>(url, requestData);
+            return _podio.Post<List<SearchResult>>(url, requestData);
         }
 
         /// <summary>
@@ -107,7 +140,7 @@ namespace PodioAPI.Services
         ///     "file" and  "profile"
         /// </param>
         /// <returns></returns>
-        public async Task<List<SearchResult>> SearchInSpace(int spaceId, string query, int? limit = null, int offset = 0,
+        public List<SearchResult> SearchInSpace(int spaceId, string query, int? limit = null, int offset = 0,
             string refType = null)
         {
             string url = string.Format("/search/space/{0}/", spaceId);
@@ -118,7 +151,7 @@ namespace PodioAPI.Services
                 offset = offset,
                 ref_type = refType
             };
-            return  await _podio.Post<List<SearchResult>>(url, requestData);
+            return _podio.Post<List<SearchResult>>(url, requestData);
         }
     }
 }

@@ -1,15 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
-#if !NETSTANDARD1_3
 using System.Runtime.Serialization;
-#endif
 using PodioAPI.Utils;
 
 namespace PodioAPI.Exceptions
 {
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioException : Exception
     {
         /// <summary>
@@ -28,18 +24,13 @@ namespace PodioAPI.Exceptions
             this.StatusCode = statusCode;
         }
 
-#if !NETSTANDARD1_3
         public PodioException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
     }
 
-
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioInvalidGrantException : PodioException
     {
         public PodioInvalidGrantException(int status, PodioError error)
@@ -47,17 +38,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioInvalidGrantException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioInvalidGrantException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioBadRequestException : PodioException
     {
         public PodioBadRequestException(int status, PodioError error)
@@ -65,18 +51,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-
-#if !NETSTANDARD1_3
-        public PodioBadRequestException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioBadRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioAuthorizationException : PodioException
     {
         public PodioAuthorizationException(int status, PodioError error)
@@ -84,16 +64,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioAuthorizationException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioAuthorizationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioForbiddenException : PodioException
     {
         public PodioForbiddenException(int status, PodioError error)
@@ -101,16 +77,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioForbiddenException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioForbiddenException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioNotFoundException : PodioException
     {
         public PodioNotFoundException(int status, PodioError error)
@@ -118,16 +90,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioNotFoundException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioConflictException : PodioException
     {
         public PodioConflictException(int status, PodioError error)
@@ -135,16 +103,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioConflictException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioConflictException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioGoneException : PodioException
     {
         public PodioGoneException(int status, PodioError error)
@@ -152,16 +116,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioGoneException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioGoneException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioRateLimitException : PodioException
     {
         public PodioRateLimitException(int status, PodioError error)
@@ -169,16 +129,12 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioRateLimitException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioRateLimitException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
-#if !NETSTANDARD1_3
     [Serializable]
-#endif
     public class PodioServerException : PodioException
     {
         public PodioServerException(int status, PodioError error)
@@ -186,11 +142,9 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioServerException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioServerException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
 
 
@@ -201,11 +155,9 @@ namespace PodioAPI.Exceptions
         {
         }
 
-#if !NETSTANDARD1_3
-        public PodioUnavailableException(SerializationInfo info, StreamingContext context): base(info, context)
+        public PodioUnavailableException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
     public class PodioInvalidJsonException : PodioException
     {
@@ -213,11 +165,10 @@ namespace PodioAPI.Exceptions
             : base(status, error)
         {
         }
-#if !NETSTANDARD1_3
+
         public PodioInvalidJsonException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
-#endif
     }
     /// <summary>
     ///     Represent the error response from API

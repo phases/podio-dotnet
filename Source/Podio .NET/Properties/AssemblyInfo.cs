@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Podio.NET")]
 [assembly: AssemblyDescription("Podio API C# Client")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("https://podio.com")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PodioAPI")]
-[assembly: AssemblyCopyright("Copyright ©  Podio 2014")]
+[assembly: AssemblyCopyright("Copyright ©  Phases 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.1.1.4")]
-[assembly: AssemblyFileVersion("2.1.1.4")]
+[assembly: AssemblyVersion("3.0.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.0")]

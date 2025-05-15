@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 using PodioAPI.Models;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -20,10 +19,10 @@ namespace PodioAPI.Services
         /// </summary>
         /// <param name="statusId"></param>
         /// <returns></returns>
-        public async Task<Status> GetStatusMessage(int statusId)
+        public Status GetStatusMessage(int statusId)
         {
             string url = string.Format("/status/{0}", statusId);
-            return  await _podio.Get<Status>(url);
+            return _podio.Get<Status>(url);
         }
 
         /// <summary>
@@ -41,7 +40,7 @@ namespace PodioAPI.Services
         /// <param name="questionText">The text of the question if any</param>
         /// <param name="questionOptions">The list of answer options as strings</param>
         /// <returns></returns>
-        public async Task<Status> AddNewStatusMessage(int spaceId, string text, List<long> fileIds = null, int? embedId = null,
+        public Status AddNewStatusMessage(int spaceId, string text, List<long> fileIds = null, int? embedId = null,
             string embedUrl = null, string questionText = null, List<string> questionOptions = null)
         {
             string url = string.Format("/status/space/{0}/", spaceId);
@@ -60,7 +59,7 @@ namespace PodioAPI.Services
                 };
             }
 
-            return  await _podio.Post<Status>(url, requestData);
+            return _podio.Post<Status>(url, requestData);
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace PodioAPI.Services
         ///     area
         /// </param>
         /// <param name="embedUrl">The url to be attached</param>
-        public async Task<dynamic> UpdateStatusMessage(int statusId, string text, List<long> fileIds = null, int? embedId = null,
+        public void UpdateStatusMessage(int statusId, string text, List<long> fileIds = null, int? embedId = null,
             string embedUrl = null)
         {
             string url = string.Format("/status/{0}", statusId);
@@ -86,7 +85,7 @@ namespace PodioAPI.Services
                 embed_id = embedId,
                 embed_url = embedUrl
             };
-            return await _podio.Put<dynamic>(url, requestData);
+            _podio.Put<dynamic>(url, requestData);
         }
 
         /// <summary>
@@ -94,10 +93,10 @@ namespace PodioAPI.Services
         ///     <para>Podio API Reference: https://developers.podio.com/doc/status/delete-a-status-message-22339 </para>
         /// </summary>
         /// <param name="statusId"></param>
-        public async Task<dynamic> DeleteStatusMessage(int statusId)
+        public void DeleteStatusMessage(int statusId)
         {
             string url = string.Format("/status/{0}", statusId);
-            return  await _podio.Delete<dynamic>(url);
+            _podio.Delete<dynamic>(url);
         }
     }
 }

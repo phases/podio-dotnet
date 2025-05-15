@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using PodioAPI.Models;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -23,7 +22,7 @@ namespace PodioAPI.Services
         /// <param name="dateTo">The date to search to</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CalendarEvent>> GetAppCalendar(int appId, DateTime dateFrom, DateTime dateTo,
+        public IEnumerable<CalendarEvent> GetAppCalendar(int appId, DateTime dateFrom, DateTime dateTo,
             int? priority = null)
         {
             string url = string.Format("/calendar/app/{0}/", appId);
@@ -33,7 +32,7 @@ namespace PodioAPI.Services
             if (priority.HasValue)
                 requestData["priority"] = priority.Value.ToString();
 
-            return await _podio.Get<List<CalendarEvent>>(url, requestData);
+            return _podio.Get<List<CalendarEvent>>(url, requestData);
         }
 
         /// <summary>
@@ -44,7 +43,7 @@ namespace PodioAPI.Services
         /// <param name="dateTo">The date to search to</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CalendarEvent>> GetGlobalCalendar(DateTime dateFrom, DateTime dateTo, int? priority = null)
+        public IEnumerable<CalendarEvent> GetGlobalCalendar(DateTime dateFrom, DateTime dateTo, int? priority = null)
         {
             string url = "/calendar/";
             var requestData = new Dictionary<string, string>();
@@ -53,7 +52,7 @@ namespace PodioAPI.Services
             if (priority.HasValue)
                 requestData["priority"] = priority.Value.ToString();
 
-            return await _podio.Get<List<CalendarEvent>>(url, requestData);
+            return _podio.Get<List<CalendarEvent>>(url, requestData);
         }
 
         /// <summary>
@@ -65,10 +64,15 @@ namespace PodioAPI.Services
         /// <param name="userId"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StringResponse> GetAppCalendarAsiCal(int appId, int userId, string token)
+        public string GetAppCalendarAsiCal(int appId, int userId, string token)
         {
             string url = string.Format("/calendar/app/{0}/ics/{1}/{2}/", appId, userId, token);
-            return await _podio.Get<StringResponse>(url: url, returnAsString: true);
+            var options = new Dictionary<string, bool>
+            {
+                {"return_raw", true}
+            };
+
+            return _podio.Get<dynamic>(url: url, options: options);
         }
 
         /// <summary>
@@ -79,10 +83,15 @@ namespace PodioAPI.Services
         /// <param name="userId"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StringResponse> GetGlobalCalendarAsiCal(int userId, string token)
+        public string GetGlobalCalendarAsiCal(int userId, string token)
         {
             string url = string.Format("/calendar/ics/{0}/{1}/", userId, token);
-            return await _podio.Get<StringResponse>(url: url, returnAsString: true);
+            var options = new Dictionary<string, bool>
+            {
+                {"return_raw", true}
+            };
+
+            return _podio.Get<dynamic>(url: url, options: options);
         }
 
         /// <summary>
@@ -95,7 +104,7 @@ namespace PodioAPI.Services
         /// <param name="dateTo">The date to search to</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CalendarEvent>> GetSpaceCalendar(int spaceId, DateTime dateFrom, DateTime dateTo,
+        public IEnumerable<CalendarEvent> GetSpaceCalendar(int spaceId, DateTime dateFrom, DateTime dateTo,
             int? priority = null)
         {
             string url = string.Format("/calendar/space/{0}/", spaceId);
@@ -105,7 +114,7 @@ namespace PodioAPI.Services
             if (priority.HasValue)
                 requestData["priority"] = priority.Value.ToString();
 
-            return await _podio.Get<List<CalendarEvent>>(url, requestData);
+            return _podio.Get<List<CalendarEvent>>(url, requestData);
         }
 
         /// <summary>
@@ -117,15 +126,15 @@ namespace PodioAPI.Services
         /// <param name="userId"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StringResponse> GetSpaceCalendarAsiCal(int spaceId, int userId, string token)
+        public string GetSpaceCalendarAsiCal(int spaceId, int userId, string token)
         {
             string url = string.Format("/calendar/space/{0}/ics/{1}/{2}/", spaceId, userId, token);
-            var options = new Dictionary<string, bool>()
+            var options = new Dictionary<string, bool>
             {
                 {"return_raw", true}
             };
 
-            return await _podio.Get<StringResponse>(url: url, returnAsString: true);
+            return _podio.Get<dynamic>(url: url, options: options);
         }
 
         /// <summary>
@@ -136,10 +145,15 @@ namespace PodioAPI.Services
         /// <param name="userId"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<StringResponse> GetTaskCalendarAsiCal(int taskId)
+        public string GetTaskCalendarAsiCal(int taskId)
         {
             string url = string.Format("/calendar/task/{0}/ics/", taskId);
-            return await _podio.Get<StringResponse>(url: url, returnAsString: true);
+            var options = new Dictionary<string, bool>
+            {
+                {"return_raw", true}
+            };
+
+            return _podio.Get<dynamic>(url: url, options: options);
         }
 
         /// <summary>
@@ -149,7 +163,7 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of events to return in each group Default value: 5</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<CalendarSummary> GetCalendarSummary(int limit = 5, int priority = 1)
+        public CalendarSummary GetCalendarSummary(int limit = 5, int priority = 1)
         {
             string url = "/calendar/summary";
             var requestData = new Dictionary<string, string>
@@ -158,7 +172,7 @@ namespace PodioAPI.Services
                 {"priority", priority.ToString()}
             };
 
-            return await _podio.Get<CalendarSummary>(url, requestData);
+            return _podio.Get<CalendarSummary>(url, requestData);
         }
 
         /// <summary>
@@ -168,7 +182,7 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of events to return in each group Default value: 5</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<CalendarSummary> GetCalendarSummaryForPersonal(int limit = 5, int priority = 1)
+        public CalendarSummary GetCalendarSummaryForPersonal(int limit = 5, int priority = 1)
         {
             string url = "/calendar/personal/summary";
             var requestData = new Dictionary<string, string>
@@ -177,7 +191,7 @@ namespace PodioAPI.Services
                 {"priority", priority.ToString()}
             };
 
-            return await _podio.Get<CalendarSummary>(url, requestData);
+            return _podio.Get<CalendarSummary>(url, requestData);
         }
 
         /// <summary>
@@ -188,7 +202,7 @@ namespace PodioAPI.Services
         /// <param name="limit">The maximum number of events to return in each group Default value: 5</param>
         /// <param name="priority">The minimum priority for the events to return Default value: 1</param>
         /// <returns></returns>
-        public async Task<CalendarSummary> GetCalendarSummaryForSpace(int spaceId, int limit = 5, int priority = 1)
+        public CalendarSummary GetCalendarSummaryForSpace(int spaceId, int limit = 5, int priority = 1)
         {
             string url = string.Format("/calendar/space/{0}/summary", spaceId);
             var requestData = new Dictionary<string, string>
@@ -197,7 +211,7 @@ namespace PodioAPI.Services
                 {"priority", priority.ToString()}
             };
 
-            return await _podio.Get<CalendarSummary>(url, requestData);
+            return _podio.Get<CalendarSummary>(url, requestData);
         }
 
 
@@ -207,7 +221,7 @@ namespace PodioAPI.Services
         /// <param name="uid"></param>
         /// <param name="startDateTime"></param>
         /// <param name="endDateTime"></param>
-        public async Task<dynamic> UpdateCalendarEvent(int uid, DateTime startDateTime, DateTime endDateTime)
+        public void UpdateCalendarEvent(int uid, DateTime startDateTime, DateTime endDateTime)
         {
             string url = string.Format("/calendar/event/{0}", uid);
             dynamic requestData = new
@@ -217,7 +231,7 @@ namespace PodioAPI.Services
                 end_date = endDateTime.Date,
                 end_time = endDateTime.TimeOfDay
             };
-           return await _podio.Put<dynamic>(url, requestData);
+            _podio.Put<dynamic>(url, requestData);
         }
     }
 }

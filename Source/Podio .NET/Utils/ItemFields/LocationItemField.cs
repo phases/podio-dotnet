@@ -53,11 +53,6 @@ namespace PodioAPI.Utils.ItemFields
 
                 return null;
             }
-            set
-            {
-                EnsureValuesInitialized(true);
-                this.Values.First()["lat"] = value;
-            }        
         }
 
         public double? Longitude
@@ -70,11 +65,6 @@ namespace PodioAPI.Utils.ItemFields
                 }
 
                 return null;
-            }
-            set
-            {
-                EnsureValuesInitialized(true);
-                this.Values.First()["lng"] = value;
             }
         }
         public string StreetAddress

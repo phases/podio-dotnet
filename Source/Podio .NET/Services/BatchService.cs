@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using PodioAPI.Models;
-using System.Threading.Tasks;
 
 namespace PodioAPI.Services
 {
@@ -19,10 +18,10 @@ namespace PodioAPI.Services
         /// </summary>
         /// <param name="batchId"></param>
         /// <returns></returns>
-        public async Task<Batch> GetBatch(int batchId)
+        public Batch GetBatch(int batchId)
         {
             string url = string.Format("/batch/{0}", batchId);
-            return await _podio.Get<Batch>(url);
+            return _podio.Get<Batch>(url);
         }
 
         /// <summary>
@@ -30,10 +29,10 @@ namespace PodioAPI.Services
         ///     <para>Podio API Reference: https://developers.podio.com/doc/batch/get-batches-6078877 </para>
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Batch>> GetBatches()
+        public List<Batch> GetBatches()
         {
             string url = "/batch/";
-            return await _podio.Get<List<Batch>>(url);
+            return _podio.Get<List<Batch>>(url);
         }
 
         /// <summary>
@@ -44,10 +43,10 @@ namespace PodioAPI.Services
         /// <param name="refId"></param>
         /// <param name="plugin">The plugin can either be "app_import", "app_export", "space_contact_import" or "app_content".</param>
         /// <returns></returns>
-        public async Task<List<Batch>> GetRunningBatches(string refType, long refId, string plugin)
+        public List<Batch> GetRunningBatches(string refType, int refId, string plugin)
         {
             string url = string.Format("/batch/{0}/{1}/{2}/running/", refType, refId, plugin);
-            return await _podio.Get<List<Batch>>(url);
+            return _podio.Get<List<Batch>>(url);
         }
     }
 }

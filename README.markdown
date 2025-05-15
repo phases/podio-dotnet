@@ -1,18 +1,16 @@
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+About
+=====
 
-# Podio.NET 
-
-
-This is a .NET client for accessing the Podio API. Since Podio's official repository is no longer maintained, this project serves as an up-to-date alternative for developers working with Podio in .NET environments.
+This is the .NET Client for accessing the Podio API. Since Podio's official repository is no longer maintained, this project serves as an up-to-date alternative for developers working with Podio in .NET environments.
 
 Installation
 -------
 
-The client library requires .NET Framework 4.5 or higher and [Json.NET](http://www.nuget.org/packages/Newtonsoft.Json/) as its dependency.
+The client library requires .NET Framework 4.0 or higher and [Json.NET](http://www.nuget.org/packages/Newtonsoft.Json/) as its dependency.
 
 This package is available on NuGet Gallery. To install the [Podio package](http://www.nuget.org/packages/podio) run the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console)
 
-    PM> Install-Package Podio.Async
+    PM> Install-Package Podio
 
 This will install the client library and the required dependency.
 
@@ -41,7 +39,7 @@ string authUrl = podio.GetAuthorizeUrl(redirectUri);
 
 // In the callback you get the authorization_code 
 // which you use to get the access token
-await podio.AuthenticateWithAuthorizationCode(Request["code"], redirectUri);
+podio.AuthenticateWithAuthorizationCode(Request["code"], redirectUri);
 ```
 
 ### Username and Password Flow
@@ -49,7 +47,7 @@ await podio.AuthenticateWithAuthorizationCode(Request["code"], redirectUri);
 If you're writing a batch job or are just playing around with the API, this is the easiest to get started. Do not use this for authenticating users other than yourself, the web server flow is meant for that.
 
 ```csharp
-await podio.AuthenticateWithPassword("USERNAME", "PASSWORD");
+podio.AuthenticateWithPassword("USERNAME", "PASSWORD");
 ```
 
 ### App authentication flow
@@ -57,7 +55,7 @@ await podio.AuthenticateWithPassword("USERNAME", "PASSWORD");
 The app authentication flow is suitable in situations where you only need data from a single app and do not wish authenticate as a specific user.
 
 ```csharp
-await podio.AuthenticateWithApp("APP_ID", "APP_SECRET")
+podio.AuthenticateWithApp("APP_ID", "APP_SECRET")
 ```
 
 Basic Usage
@@ -76,7 +74,7 @@ var item = podio.ItemService.GetItem(123456);
     {"deadline",new  { from = new DateTime(2013, 10, 1), to = DateTime.Now }}
   };
 
-await podio.ItemService.FilterItems(AppId, 10, null, filters);
+podio.ItemService.FilterItems(AppId, 10, null, filters);
 ```
 
 All the wrapped methods either return a strongly typed model, or a collection of models.
@@ -89,7 +87,7 @@ All unsuccessful responses returned by the API (everything that has a 4xx or 5xx
 ```csharp
 try
 {
-    var uploadedFile = await podio.FileService.UploadFile(filePath,"image.jpg")
+    podio.FileService.UploadFile(filePath,"image.jpg")
 }
 catch (PodioException exception)
 {
@@ -110,7 +108,7 @@ using PodioAPI.Models;
 using PodioAPI.Utils.ItemFields;
 using PodioAPI.Exceptions;
 
-await podio.AuthenticateWithPassword("YOUR_PODIO_USERNAME", "YOUR_PODIO_PASSWORD");
+podio.AuthenticateWithPassword("YOUR_PODIO_USERNAME", "YOUR_PODIO_PASSWORD");
 
 Item myNewItem = new Item();
 
@@ -145,15 +143,15 @@ appReferenceField.ItemIds = new List<long>
 
 // Embed/Link field with with external_id 'link'
 var embedField = myNewItem.Field<EmbedItemField>("link");
-var embed = await podio.EmbedService.AddAnEmbed("https://www.google.com/"); // Creating an embed
+var embed = podio.EmbedService.AddAnEmbed("https://www.google.com/"); // Creating an embed
 embedField.AddEmbed(embed.EmbedId);
 
 //Uploading a file and attaching it to new item
 var filePath = Server.MapPath("\\files\\report.pdf");
-var uploadedFile = await podio.FileService.UploadFile(filePath, "report.pdf");
-myNewItem.FileIds = new List<int> { uploadedFile.FileId }; //Attach the uploaded file's id to item
+var uploadedFile = podio.FileService.UploadFile(filePath, "report.pdf");
+myNewItem.FileIds = new List<long> { uploadedFile.FileId }; //Attach the uploaded file's id to item
 
-var itemId = await podio.ItemService.AddNewItem(5678, myNewItem);
+podio.ItemService.AddNewItem(5678, myNewItem);
 ```
 
 For more documentation and examples see [Documentation](http://podio.github.io/podio-dotnet/)
